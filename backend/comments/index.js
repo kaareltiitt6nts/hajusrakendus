@@ -16,6 +16,19 @@ app.get("/comments", async (req, res) => {
   }
 });
 
+app.post("/events", (req, res) => {
+  try {
+    const event = req.body;
+
+    console.log(`received event: ${event.type}`);
+    console.log(req.body.data);
+
+    res.send({});
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 app.listen(PORT, () => {
-  console.log("Started posts service");
+  console.log("Started comments service");
 });

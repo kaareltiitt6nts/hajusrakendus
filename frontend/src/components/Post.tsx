@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CommentField from "./CommentField";
 
 export type CommentProps = {
@@ -11,11 +11,22 @@ export type PostProps = {
   id: number;
   title: string;
   body: string;
-  comments?: CommentProps[];
   date: string;
 };
 
 export const Post = (props: PostProps) => {
+  const [comments, setComments] = useState<CommentProps[]>([]);
+
+  useEffect(() => {
+    const getComments = async () => {
+      await fetch(`/posts/${props.id}/comments`)
+        .then((data) => data.json())
+        .then((json) => setComments(json));
+    };
+
+    getComments();
+  }, []);
+
   return (
     <div className="w-64 min-h-64 flex flex-col bg-neutral-100 p-3 rounded-md shadow-lg">
       <div className="flex flex-row justify-between">
@@ -27,10 +38,7 @@ export const Post = (props: PostProps) => {
       <hr className="my-2" />
       <p>Comments:</p>
       <ul className="mb-5 flex flex-col">
-        {props.comments?.length == 0 && (
-          <p className="bg-blue-200 p-1 rounded-md my-2">No Comments</p>
-        )}
-        {props.comments?.map((comment, index) => {
+        {comments.map((comment, index) => {
           return (
             <li
               key={index}

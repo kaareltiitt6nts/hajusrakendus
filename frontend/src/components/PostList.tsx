@@ -12,10 +12,10 @@ export const PostList = (props: PostListProps) => {
       {props.posts.map((post) => {
         return (
           <Post
+            key={post.id}
             id={post.id}
             title={post.title}
             body={post.body}
-            comments={post.comments}
             date={post.date}
           />
         );
