@@ -8,13 +8,18 @@ function App() {
 
   useEffect(() => {
     const getPosts = async () => {
-      const res = await fetch(`/posts/`);
-      const json = await res.json();
-      setPosts(json);
+      await fetch(`http://localhost:5001/posts`)
+        .then((data) => data.json())
+        .then((json) => setPosts(json))
+        .catch((err) => console.log(err));
     };
 
     getPosts();
   }, []);
+
+  useEffect(() => {
+    console.log(posts);
+  }, [posts]);
 
   return (
     <div>

@@ -8,15 +8,17 @@ export type PostListProps = {
 
 export const PostList = (props: PostListProps) => {
   return (
-    <div className="flex flex-wrap gap-2 size-fit m-auto">
+    <div className="flex flex-wrap justify-center gap-2 m-auto">
       {props.posts.map((post) => {
         return (
           <Post
             key={post.id}
             id={post.id}
+            postId={post.postId}
             title={post.title}
             body={post.body}
-            date={post.date}
+            created_at={post.created_at}
+            comments={post.comments}
           />
         );
       })}

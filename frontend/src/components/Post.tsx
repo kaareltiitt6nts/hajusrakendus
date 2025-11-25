@@ -1,44 +1,34 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import CommentField from "./CommentField";
 
 export type CommentProps = {
-  id: number;
-  post_id: number;
+  id: string;
+  postId: string;
   body: string;
 };
 
 export type PostProps = {
-  id: number;
+  id: string;
+  postId: string;
   title: string;
   body: string;
-  date: string;
+  created_at: string;
+  comments: CommentProps[];
 };
 
 export const Post = (props: PostProps) => {
-  const [comments, setComments] = useState<CommentProps[]>([]);
-
-  useEffect(() => {
-    const getComments = async () => {
-      await fetch(`/posts/${props.id}/comments`)
-        .then((data) => data.json())
-        .then((json) => setComments(json));
-    };
-
-    getComments();
-  }, []);
-
   return (
     <div className="w-64 min-h-64 flex flex-col bg-neutral-100 p-3 rounded-md shadow-lg">
       <div className="flex flex-row justify-between">
         <p className="text-2xl">{props.title}</p>
-        <p className="self-end">{props.date}</p>
+        <p className="self-end">{props.created_at}</p>
       </div>
       <hr className="my-2" />
       <p>{props.body}</p>
       <hr className="my-2" />
       <p>Comments:</p>
-      <ul className="mb-5 flex flex-col">
-        {comments.map((comment, index) => {
+      <ul className="mb-5 flex flex-col overflow-y-scroll h-48">
+        {props.comments.map((comment, index) => {
           return (
             <li
               key={index}

@@ -16,31 +16,27 @@ app.post("/events", async (req, res) => {
 
     console.log(`received event: ${type}`);
 
-    if (type === "CreatePost") {
-      await fetch("http://localhost:3001/events", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          type: type,
-          data: req.body.data || {},
-        }),
-      });
-    }
+    await fetch("http://localhost:3001/events", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        type: type,
+        data: req.body.data || {},
+      }),
+    });
 
-    if (type === "CreateComment") {
-      await fetch("http://localhost:3002/events", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          type: type,
-          data: req.body.data || {},
-        }),
-      });
-    }
+    await fetch("http://localhost:5001/events", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        type: type,
+        data: req.body.data || {},
+      }),
+    });
 
     res.send({ message: "OK" });
   } catch (error) {
