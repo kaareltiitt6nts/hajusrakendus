@@ -24,6 +24,7 @@ app.post("/comments", async (req, res) => {
       postId: event.postId,
       body: event.body,
       created_at: new Date().toISOString().slice(0, 19).replace("T", " "),
+      status: "pending",
     };
 
     console.log(newComment);
@@ -47,23 +48,37 @@ app.post("/comments", async (req, res) => {
   } catch (error) {}
 });
 
-app.post("/events", (req, res) => {
+app.post("/events", async (req, res) => {
   try {
-    try {
-      const event = req.body;
+    const event = req.body;
+    const type = event.type;
+    const data = event.data;
 
-      console.log(`received event: ${event.type}`);
-      console.log(req.body.data);
+    console.log(event);
 
-      res.send({});
-    } catch (error) {
-      console.log(error);
+    if (type === "ModerateComment") {
+      const comment = comments.find((comment) => comment.id === data.id);
+
+      comment.status = data.status;
+
+      await fetch("http://localhost:5000/events", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          type: "UpdateComment",
+          data: comment,
+        }),
+      });
     }
+
+    res.send({ message: "OK" });
   } catch (error) {
     console.log(error);
   }
 });
 
 app.listen(PORT, () => {
-  console.log("Started comments service");
+  console.log(`Started comments service on port ${PORT}`);
 });

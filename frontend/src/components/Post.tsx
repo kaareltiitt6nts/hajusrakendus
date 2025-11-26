@@ -5,6 +5,7 @@ export type CommentProps = {
   id: string;
   postId: string;
   body: string;
+  status: string;
 };
 
 export type PostProps = {
@@ -17,6 +18,17 @@ export type PostProps = {
 };
 
 export const Post = (props: PostProps) => {
+  const getStatus = (comment: CommentProps) => {
+    switch (comment.status) {
+      case "pending":
+        return "Comment is pending.";
+      case "rejected":
+        return "Comment has been rejected.";
+      default:
+        return "wtf ever.. error?";
+    }
+  };
+
   return (
     <div className="w-64 min-h-64 flex flex-col bg-neutral-100 p-3 rounded-md shadow-lg">
       <div className="flex flex-row justify-between">
@@ -30,10 +42,13 @@ export const Post = (props: PostProps) => {
       <ul className="mb-5 flex flex-col overflow-y-scroll h-48">
         {props.comments.map((comment, index) => {
           return (
-            <li
-              key={index}
-              className="bg-blue-200 bg- p-1 rounded-md my-2"
-            >{`${comment.body}`}</li>
+            <li key={index} className="bg-blue-200 bg- p-1 rounded-md my-2">
+              {comment.status === "approved" ? (
+                comment.body
+              ) : (
+                <i>{getStatus(comment)}</i>
+              )}
+            </li>
           );
         })}
       </ul>

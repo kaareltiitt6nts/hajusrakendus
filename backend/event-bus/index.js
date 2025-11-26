@@ -7,34 +7,61 @@ app.use(express.json());
 
 app.post("/events", async (req, res) => {
   try {
-    const body = req.body;
-    const type = body.type;
+    console.log(req.body);
+
+    const event = req.body;
+    const type = event.type;
+    const data = event.data;
 
     if (!type) {
-      res.send({ message: "No event type specified" });
+      return res.send({ message: "No event type specified" });
     }
 
-    console.log(`received event: ${type}`);
-
-    await fetch("http://localhost:3001/events", {
+    // posts
+    fetch("http://localhost:3001/events", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         type: type,
-        data: req.body.data || {},
+        data: data || {},
       }),
     });
 
-    await fetch("http://localhost:5001/events", {
+    // comments
+    fetch("http://localhost:3002/events", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         type: type,
-        data: req.body.data || {},
+        data: data || {},
+      }),
+    });
+
+    // moderation
+    fetch("http://localhost:3003/events", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        type: type,
+        data: data || {},
+      }),
+    });
+
+    // query
+    fetch("http://localhost:5001/events", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        type: type,
+        data: data || {},
       }),
     });
 

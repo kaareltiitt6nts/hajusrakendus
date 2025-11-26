@@ -58,12 +58,12 @@ app.post("/events", (req, res) => {
     console.log(`received event: ${event.type}`);
     console.log(req.body.data);
 
-    res.send({});
+    res.send({ message: "OK" });
   } catch (error) {
     console.log(error);
   }
 });
 
 app.listen(PORT, () => {
-  console.log("Started posts service");
+  console.log(`Started posts service on port ${PORT}`);
 });

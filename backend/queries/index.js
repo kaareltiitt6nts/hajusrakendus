@@ -27,12 +27,12 @@ app.post("/events", (req, res) => {
   if (type === "CreatePost") {
     console.log("create post");
 
-    posts.push({
+    const newPost = {
       ...data,
       comments: [],
-    });
+    };
 
-    console.log(posts);
+    posts.push(newPost);
 
     return res.send(event);
   }
@@ -47,9 +47,26 @@ app.post("/events", (req, res) => {
     return res.send(event);
   }
 
-  res.send({});
+  if (type === "UpdateComment") {
+    console.log("update comment");
+    console.log(data);
+
+    const post = posts.find((post) => post.postId === data.postId);
+    console.log(post);
+    console.log(post.comments);
+
+    const comment = post.comments.find((comment) => comment.id === data.id);
+
+    console.log(comment);
+
+    comment.status = data.status;
+
+    return res.send(event);
+  }
+
+  res.send({ message: "OK" });
 });
 
 app.listen(PORT, () => {
-  console.log("started query service");
+  console.log(`started query service on port ${PORT}`);
 });
