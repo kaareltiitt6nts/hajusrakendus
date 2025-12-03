@@ -30,7 +30,7 @@ app.post("/comments", async (req, res) => {
     console.log(newComment);
     comments.push(newComment);
 
-    await fetch("http://localhost:5000/events", {
+    await fetch("http://event-bus:5000/events", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -61,7 +61,7 @@ app.post("/events", async (req, res) => {
 
       comment.status = data.status;
 
-      await fetch("http://localhost:5000/events", {
+      await fetch("http://event-bus:5000/events", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

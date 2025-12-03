@@ -33,7 +33,7 @@ app.post("/posts", async (req, res) => {
 
     posts.push(newPost);
 
-    await fetch("http://localhost:5000/events", {
+    await fetch("http://event-bus:5000/events", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

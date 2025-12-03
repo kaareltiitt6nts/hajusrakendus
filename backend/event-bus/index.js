@@ -18,7 +18,7 @@ app.post("/events", async (req, res) => {
     }
 
     // posts
-    fetch("http://localhost:3001/events", {
+    fetch("http://posts:3001/events", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -30,7 +30,7 @@ app.post("/events", async (req, res) => {
     });
 
     // comments
-    fetch("http://localhost:3002/events", {
+    fetch("http://comments:3002/events", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +42,7 @@ app.post("/events", async (req, res) => {
     });
 
     // moderation
-    fetch("http://localhost:3003/events", {
+    fetch("http://moderation:3003/events", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -54,7 +54,7 @@ app.post("/events", async (req, res) => {
     });
 
     // query
-    fetch("http://localhost:5001/events", {
+    fetch("http://query:5001/events", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

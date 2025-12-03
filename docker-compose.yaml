@@ -1,0 +1,19 @@
+services:
+  comments:
+    build: ./backend/comments
+
+  event-bus:
+    build: ./backend/event-bus
+
+  moderation:
+    build: ./backend/moderation
+
+  posts:
+    build: ./backend/posts
+
+  queries:
+    build: ./backend/queries
+
+networks:
+  default:
+    name: net-blog
