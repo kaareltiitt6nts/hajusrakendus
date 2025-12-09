@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: queries-depl
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: queries
+  template:
+    metadata:
+      labels:
+        app: queries
+    spec:
+      containers:
+      - name: queries
+        image: kaareltiitt6nts/blog:queries
+      imagePullSecrets:
+        - name: kaareltiitt6nts-secret
